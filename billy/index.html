@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>哲♂学盒</title>
+    <style>
+        :root {
+            --primary: #7aa2ff;
+            --background: #f5f8ff;
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 1rem;
+            text-align: center;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+            z-index: 100;
+        }
+
+        .title {
+            font-size: 2.2rem;
+            color: #2d3748;
+            margin: 0;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .subtitle {
+            color: #718096;
+            margin: 0.3rem 0 0;
+            font-size: 1.1rem;
+        }
+
+        body {
+            background: var(--background);
+            padding-top: 100px;
+            margin: 0;
+            font-family: 'Helvetica Neue', sans-serif;
+            min-height: 100vh;
+        }
+
+        .soundboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+            gap: 12px;
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+
+        .sound-btn {
+            padding: 15px;
+            border: 2px solid #e8edff;
+            border-radius: 10px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.15s;
+            height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #4a5568;
+            font-size: 14px;
+            position: relative;
+            overflow: hidden;
+            white-space: pre-wrap;
+            word-break: break-word;
+            line-height: 1.3;
+        }
+
+        .sound-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(122, 162, 255, 0.15);
+            border-color: var(--primary);
+        }
+
+        .sound-btn:active {
+            transform: scale(0.98);
+        }
+
+        @media (max-width: 640px) {
+            .soundboard {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            .sound-btn {
+                height: 80px;
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1 class="title">哲♂学盒</h1>
+        <p class="subtitle">一个收录了大多数哲♂学语录的小站，Enjoy!(ρ„✧▽<„ )⌒</p>
+    </header>
+
+    <div class="soundboard" id="soundboard"></div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const soundNames = [
+                "alright_man",
+                "ang_bloody_dat",
+               "alright_man",
+            "ang_bloody_dat",
+            "ap_his_butt",
+            "areeeeeee",
+            "augh",
+            "auuuuuugh_how_ya_like_that_huh",
+            "auuuuuuugh",
+            "auuuuuuuuuuuuuuuugh",
+            "aww_what_are_ya_doin",
+            "awwww",
+            "baacode",
+            "bachelor",
+            "bah",
+            "barassing_me",
+            "be_gentle_huh",
+            "beebee_augh",
+            "beep1",
+            "big_guy_did_you_hear_some_uhh",
+            "billyeah",
+            "boss_of_this_gym",
+            "boy",
+            "boynextdoor",
+            "break_my_leg",
+            "breaks_their_ear",
+            "cha_han",
+            "chains_are",
+            "chains_are_too_tight",
+            "college_boy",
+            "come_on_lets_go",
+            "come_on_son",
+            "come_ooooon",
+            "dark",
+            "deep",
+            "deep_darkfanatsies",
+            "dog_arent_ya",
+            "door",
+            "dropped_that_right_over_there",
+            "exaaaaactly",
+            "fantasies",
+            "feel_that_aaaang",
+            "finished_with_you_get_up",
+            "foo",
+            "fuck",
+            "fuck_you",
+            "fuckyou",
+            "fuguri",
+            "gay_baaaaaaaaaar",
+            "get_on_your_hands_and_knees_and_ill_show_ya",
+            "get_up",
+            "give_me_the_advantage_cmon_get_down_there",
+            "give_ooh_it_hurts",
+            "haaaaaaaaaaaaaaauuuuuuuuuuuuuh",
+            "hhhhawwwwwwwwwwwwwwgh",
+            "hmm_like_the_bottom",
+            "hoh",
+            "hoooo_balahblahakaghdashdh",
+            "how_ya_feelin",
+            "how_ya_like_dat_huh",
+            "how_ya_like_dat_huh_2",
+            "hows_that_for_powah_huh",
+            "hows_that_for_powah_huh_2",
+            "howya",
+            "huh_looks_like_i_got_a_trophy_too",
+            "huh_you_feel_that_powah_huh_earrape",
+            "huh1",
+            "huh2",
+            "i_dunno_whatever_you_want",
+            "i_give",
+            "i_have_no_idea_what_the_fuck_to_put_here",
+            "i_knew_you_wanted_dis",
+            "if_you_decide",
+            "ike_men",
+            "ike_tha",
+            "ill_break_it",
+            "ill_throw_you_around_a_littlebit",
+            "incredible",
+            "is_that_what_you_mean",
+            "its_no_more",
+            "japanese_voice1",
+            "kazuya",
+            "kazuya___fuck",
+            "ladies_first",
+            "lets_see_who_can_play_dirty",
+            "like_dat",
+            "like_that_huh",
+            "like_that_huh_2",
+            "like_to_grab_bawls_huh",
+            "lockerhit1",
+            "lockerhit2",
+            "master",
+            "master2",
+            "mmmmmmmmmmmm",
+            "next",
+            "nice_ass",
+            "now_day",
+            "now_we_even_the_score",
+            "ohhhhhhh",
+            "only_one_way_to_learn_right",
+            "ooooooh_i_see",
+            "ooooooooooooooo",
+            "pain1",
+            "phew",
+            "powers_huh",
+            "rip_that_chest",
+            "see_how_strong_you_are",
+            "seems_like_uhh_you_wanna_go_for_the_title_huh",
+            "show_you_whos_boss_of_this_gym",
+            "shoyuba",
+            "shut_the_fuck_up",
+            "skills_what_happened",
+            "slap1",
+            "slap2",
+            "slap3",
+            "slap4",
+            "slap5",
+            "slap6",
+            "slap7",
+            "some_incentive",
+            "something_care_huh",
+            "son_that_powah",
+            "supposed_to_be_teaching_me",
+            "take_a_little_souvenir_for_my_round",
+            "take_it_boy",
+            "thats_powah",
+            "then_you_and_i_should_uhh_settle_it_then",
+            "there_you_go",
+            "too_tight",
+            "troubles_breathin",
+            "tssssss",
+            "uh_breaaaaaaaaaaaaa",
+            "uhh",
+            "uhhhhhh_your_gonna_break_my",
+            "upright",
+            "wahoo",
+            "we_got_ass_huh",
+            "whats_that_gotta_do_with_wrestlin",
+            "whoooo",
+            "why_dont_you_give_up",
+            "why_ya_push_ya_mom_like_dat",
+            "whydontyougivemethebenefits",
+            "yah_bro",
+            "yeaaaauuuuuuuuuuuuuuuuh",
+            "yeah",
+            "yeah_come_on_in_man",
+            "yeah_reach_that_ass",
+            "yeah_uhhhhhh",
+            "yeah_we_got_ass",
+            "yop",
+            "yop___full",
+            "you_gettin_mad",
+            "you_gonna_rig_this_uhhh",
+            "you_know_you_like_the_bottom",
+            "you_like_embarassin_me_huh",
+            "you_like_powah_son",
+            "you_look_comfy_in_that_position_son",
+            "you_think_you_can_beat_me_1_2_3",
+            "you_wanna_go_roman_greco_style",
+            "you_want_me_to_dont_ya",
+            "yougiveup",
+            "your_a_scrappy_dog_arent_ya",
+            "your_asleep",
+            "youre_alright_then",
+            "youu",
+            "yugamineena",
+            "zzzz",
+            "aaaaaaaaaaaaaaaaahaha",
+            "aaaaaaaaaaaaaaang",
+            "aaaaah_spank",
+            "ah"
+            ];
+
+            const soundboard = document.getElementById('soundboard');
+            
+            soundNames.forEach((name) => {
+                const btn = document.createElement('button');
+                btn.className = 'sound-btn';
+                btn.textContent = name;
+                btn.onclick = () => {
+                    new Audio(`sounds/${name}.mp3`).play();
+                };
+                soundboard.appendChild(btn);
+            });
+        });
+    </script>
+</body>
+</html>
