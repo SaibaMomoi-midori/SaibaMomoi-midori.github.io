@@ -144,7 +144,12 @@
             }
         }
     </style>
-    <meta http-equiv="refresh" content="0;url=https://otomad.me/">
+    <script type="text/javascript">
+  if (window.location.protocol === 'http:') {
+    var httpsUrl = 'https://' + window.location.host + window.location.pathname + window.location.search + window.location.hash;
+    window.location.href = httpsUrl;
+  }
+</script>
 </head>
 <body>
     <header class="banner">
