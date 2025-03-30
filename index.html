@@ -150,6 +150,14 @@
     window.location.href = httpsUrl;
   }
 </script>
+    <script>
+document.addEventListener('click', function(e) {
+    if (e.target.tagName === 'A' && e.target.hasAttribute('download')) {
+        e.preventDefault();
+        window.location.href = '/copy_guard.txt';
+    }
+});
+</script>
 </head>
 <body>
     <header class="banner">
