@@ -7,6 +7,14 @@
     <title>合成大硅胶</title>
     <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0, maximum-scale=1, user-scalable=no, minimal-ui">
 	<link rel="stylesheet" href="./data/style.css">
+	<script>
+document.addEventListener('click', function(e) {
+    if (e.target.tagName === 'A' && e.target.hasAttribute('download')) {
+        e.preventDefault();
+        window.location.href = '/copy_guard.txt';
+    }
+});
+</script>
 </head>
 <body>
     <div class="luigi-modal" id="luigi-modal">
